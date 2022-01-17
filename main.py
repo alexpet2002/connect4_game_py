@@ -1,96 +1,3 @@
-# Prints a table
-# def print_array_positions(n):
-#     """ n: numbers of rows-columns
-#         array: board of the game
-#     >>> print_array_positions(10)
-#         1     2     3     4     5     6     7     8     9     10
-#     ------------------------------------------------------------
-#     A|  A1 |  A2 |  A3 |  A4 |  A5 |  A6 |  A7 |  A8 |  A9 | A10 |
-#     B|  B1 |  B2 |  B3 |  B4 |  B5 |  B6 |  B7 |  B8 |  B9 | B10 |
-#     C|  C1 |  C2 |  C3 |  C4 |  C5 |  C6 |  C7 |  C8 |  C9 | C10 |
-#     D|  D1 |  D2 |  D3 |  D4 |  D5 |  D6 |  D7 |  D8 |  D9 | D10 |
-#     E|  E1 |  E2 |  E3 |  E4 |  E5 |  E6 |  E7 |  E8 |  E9 | E10 |
-#     F|  F1 |  F2 |  F3 |  F4 |  F5 |  F6 |  F7 |  F8 |  F9 | F10 |
-#     G|  G1 |  G2 |  G3 |  G4 |  G5 |  G6 |  G7 |  G8 |  G9 | G10 |
-#     H|  H1 |  H2 |  H3 |  H4 |  H5 |  H6 |  H7 |  H8 |  H9 | H10 |
-#     I|  I1 |  I2 |  I3 |  I4 |  I5 |  I6 |  I7 |  I8 |  I9 | I10 |
-#     J|  J1 |  J2 |  J3 |  J4 |  J5 |  J6 |  J7 |  J8 |  J9 | J10 |
-#     ------------------------------------------------------------
-#
-#     """
-#
-#     def array(n):
-#         return [[" " for x in range(n)] for y in range(n)]
-#
-#     letters = "ABCDEFGHIJK"
-#
-#     numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-#
-#     array = array(n)
-#
-#     for i in range(len(array)):
-#         for j in range(len(array)):
-#             array[i][j] = letters[i] + numbers[j]
-#     print("    ", end="")
-#
-#     for i in range(n):
-#         print(str(i + 1) + "\t".expandtabs(5), end="")
-#     print()
-#     print("------" * n)
-#
-#     for i in range(n):
-#         print(letters[i], end="")
-#         for j in range(n):
-#             print(("|" + array[i][j].center(5) + "\t").expandtabs(-2), end="")
-#         print("|")
-#     print("------" * n)
-
-
-# turn = 0
-# game_continues = True
-
-
-# def pick_your_mrk():
-#     mrk = input(f"Pick your mark, X or O ?")
-#     if mrk == "O":
-#         paikths1 = 'O'
-#         paikths2 = 'X'
-#
-#     elif mrk == 'X':
-#         paikths1 = 'X'
-#         paikths2 = 'O'
-#
-#     else:
-#         print("Your input is invalid, please try again!")
-
-
-# def selection_of_user():
-#     selection = int(input("Make your Selection(0-10): "))
-#     values_range = list(range(1, 11))
-#     if selection in values_range:
-#         return selection
-#     else:
-#         selection = input("Try Again, Please make your selection (0 - 10) : ")
-#         return selection
-
-
-# def turns():
-#     turn = 0
-#
-#     while game_continues:
-#         turn += 1
-#         turn = turn % 2
-#         # turn % 2 == 0 doesnt work
-#         # Ask for paikths 1 input
-#         if turn == 0:
-#             print("Player 2, your selection is ", selection_of_user())
-#         # Ask for paikths 2 input
-#         else:
-#             print("Player 1, your selection is ", selection_of_user())
-
-
-# def win_conditions()
-
 def get_matrix_based_on_number_rows_and_columns(columns: int = 5, rows: int = 5) -> list:
     return [[0 for x in range(columns)] for y in range(rows)]
 
@@ -107,18 +14,248 @@ def display_of_the_matrix(arr) -> None:
     print("---------------------")
 
 
-if __name__ == '__main__':
-    matrix = get_matrix_based_on_number_rows_and_columns()
-    display_of_the_matrix(matrix)
+def display_of_the_board(arr) -> None:
+    print("---------------------", end="")
+    for row in arr:
+        print()
+        print("| ", end="")
+        for cell in row:
+            if cell == 0:
+                print(" ", end="")
+            elif cell == 1:
+                print("X", end="")
+            elif cell == 2:
+                print("O", end="")
+            print(" | ", end="")
+    print()
+    print("---------------------")
 
-# print_array_positions(10)
-# turn_count = turns()
-# turns()
-# selection_of_user()
-# pick_your_mrk()
-# for i in range(int(input())):
-#     try:
-#         a, b = map(int, input().split())
-#         print(a // b)
-#     except Exception as e:
-#         print("Error Code:", e)
+
+def next_turn() -> None:
+    global first_players_turn
+    first_players_turn = not first_players_turn
+
+
+def ask_user_to_input_a_column() -> int:
+    user_choice = int(input("Please select a column from 1-5: "))
+    return user_choice
+
+
+def convert_the_user_input_to_choice() -> int:
+    return ask_user_to_input_a_column() - 1
+
+
+def get_users_choice() -> int:
+    return convert_the_user_input_to_choice()
+
+    # last_column
+
+
+def choice_out_of_bounds(arr, choice) -> bool:
+    if arr[0][choice] != 0:
+        return True
+    else:
+        return False
+
+
+def mark(row, column) -> list:
+    return [row, column]
+
+
+def get_marks_column(mk) -> int:
+    return mk[1]
+
+
+def get_marks_row(mk) -> int:
+    return mk[0]
+
+
+def get_the_players_mark(arr, column) -> list:
+    number_of_rows = len(arr)
+    for row_index in range(number_of_rows - 1):
+        if arr[row_index + 1][column] != 0:
+            return mark(row_index, column)
+    return mark(number_of_rows - 1, column)
+
+
+def set_the_players_mark(coordinates_of_mark: list, first_players_turn: bool) -> None:
+    global matrix
+    if first_players_turn:
+        matrix[get_marks_row(coordinates_of_mark)][get_marks_column(coordinates_of_mark)] = 1
+    else:
+        matrix[get_marks_row(coordinates_of_mark)][get_marks_column(coordinates_of_mark)] = 2
+
+
+def win_horizontally(arr, coordinates_of_mark) -> bool:
+    r, c = get_marks_row(coordinates_of_mark), get_marks_column(coordinates_of_mark)
+
+    try:
+        if arr[r][c] == arr[r][c - 1] and arr[r][c] == arr[r][c - 2] and arr[r][c] == arr[r][c - 3]:
+            return True
+    except IndexError:
+        pass
+
+    try:
+        if arr[r][c] == arr[r][c + 1] and arr[r][c] == arr[r][c - 1] and arr[r][c] == arr[r][c - 2]:
+            return True
+    except IndexError:
+        pass
+
+    try:
+        if arr[r][c] == arr[r][c + 2] and arr[r][c] == arr[r][c + 1] and arr[r][c] == arr[r][c - 1]:
+            return True
+    except IndexError:
+        pass
+
+    try:
+        if arr[r][c] == arr[r][c + 3] and arr[r][c] == arr[r][c + 2] and arr[r][c] == arr[r][c + 1]:
+            return True
+    except IndexError:
+        pass
+    return False
+
+
+def vertically_out_of_bounds(row, arr):
+    return True if row <= len(arr) - 4 else False
+
+
+def win_vertically(arr, coordinates_of_mark) -> bool:
+    r, c = get_marks_row(coordinates_of_mark), get_marks_column(coordinates_of_mark)
+
+    if vertically_out_of_bounds(r, arr):
+        if arr[r][c] == arr[r + 1][c] and arr[r][c] == arr[r + 2][c] and arr[r][c] == arr[r + 3][c]:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def win_diagonally_left(arr, coordinates_of_mark) -> bool:
+    r, c = get_marks_row(coordinates_of_mark), get_marks_column(coordinates_of_mark)
+    try:
+        if arr[r][c] == arr[r + 1][c - 1] and arr[r][c] == arr[r + 2][c - 2] and arr[r][c] == arr[r + 3][c - 3]:
+            return True
+    except IndexError:
+        pass
+    try:
+        if arr[r][c] == arr[r - 1][c + 1] and arr[r][c] == arr[r + 1][c - 1] and arr[r][c] == arr[r + 2][c - 2]:
+            return True
+    except IndexError:
+        pass
+    try:
+        if arr[r][c] == arr[r - 2][c + 2] and arr[r][c] == arr[r - 1][c + 1] and arr[r][c] == arr[r + 1][c - 1]:
+            return True
+    except IndexError:
+        pass
+    try:
+        if arr[r][c] == arr[r - 3][c + 3] and arr[r][c] == arr[r - 2][c + 2] and arr[r][c] == arr[r - 1][c + 1]:
+            return True
+    except IndexError:
+        pass
+    return False
+
+
+def win_diagonally_right(arr, coordinates_of_mark) -> bool:
+    r, c = get_marks_row(coordinates_of_mark), get_marks_column(coordinates_of_mark)
+    try:
+        if arr[r][c] == arr[r + 1][c + 1] and arr[r][c] == arr[r + 2][c + 2] and arr[r][c] == arr[r + 3][c + 3]:
+            return True
+    except IndexError:
+        pass
+    try:
+        if arr[r][c] == arr[r - 1][c - 1] and arr[r][c] == arr[r + 1][c + 1] and arr[r][c] == arr[r + 2][c + 2]:
+            return True
+    except IndexError:
+        pass
+    try:
+        if arr[r][c] == arr[r - 2][c - 2] and arr[r][c] == arr[r - 1][c - 1] and arr[r][c] == arr[r + 1][c + 1]:
+            return True
+    except IndexError:
+        pass
+    try:
+        if arr[r][c] == arr[r - 3][c - 3] and arr[r][c] == arr[r - 2][c - 2] and arr[r][c] == arr[r - 1][c - 1]:
+            return True
+    except IndexError:
+        pass
+    return False
+
+
+def win_diagonally(arr, coordinates_of_mark) -> bool:
+    return win_diagonally_left(matrix, coordinates_of_mark) or win_diagonally_right(matrix, coordinates_of_mark)
+
+
+def four_consecutive_marks(matrix, coordinates_of_mark) -> bool:
+    return win_horizontally(matrix, coordinates_of_mark) or win_vertically(matrix,
+                                                                           coordinates_of_mark) or win_diagonally(
+        matrix, coordinates_of_mark)
+
+
+def all_columns_are_taken(arr) -> bool:
+    for row in arr:
+        for cell in row:
+            if cell == 0:
+                return False
+    return True
+
+
+def conditions_to_stop(arr, coordinates_of_mark) -> bool:
+    return all_columns_are_taken(arr) or four_consecutive_marks(arr, coordinates_of_mark)
+
+
+def winning_message(first_players_turn) -> None:
+    if first_players_turn:
+        print("Player number 2 won!")
+    else:
+        print("Player number 1 won!")
+
+
+def ending_message():
+    print("end of program")
+
+
+def do_you_wanna_try_again():
+    global matrix
+    global first_players_turn
+    global continue_playing
+    global try_again
+    response = input("Do you want to replay? y/n")
+    if response == "y":
+        matrix = get_matrix_based_on_number_rows_and_columns()
+        first_players_turn = True
+        continue_playing = True
+    elif response == "n":
+        try_again = False
+    else:
+        print("Your inout is invalid, please try again: ")
+
+
+def game_loop():
+    global continue_playing
+    while continue_playing:
+        display_of_the_board(matrix)
+        users_choice = get_users_choice()
+        users_mark = get_the_players_mark(matrix, users_choice)
+        set_the_players_mark(users_mark, first_players_turn)
+        continue_playing = not conditions_to_stop(matrix, users_mark)
+        next_turn()
+    display_of_the_board(matrix)
+    winning_message(first_players_turn)
+    do_you_wanna_try_again()
+
+
+if __name__ == '__main__':
+    # imports
+
+    # Declared variables
+    matrix = get_matrix_based_on_number_rows_and_columns()
+    first_players_turn = True
+    continue_playing = True
+    try_again = True
+
+    # Functions
+
+    while try_again:
+        game_loop()
+
+    ending_message()
