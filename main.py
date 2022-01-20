@@ -1,9 +1,34 @@
+# Mtrix Creation
 def get_matrix_based_on_number_rows_and_columns(columns: int = 5, rows: int = 5) -> list:
     return [[0 for x in range(columns)] for y in range(rows)]
 
 
+def size_of_the_array() -> int:
+    for attempt in range(10):
+        if attempt == 9:
+            print("Too many wrong attempts")
+            exit()
+        try:
+            size = int(input("Please enter the number of rows/columns: "))
+        except ValueError:
+            print("Wrong input, please try again.")
+        else:
+            if size in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
+                return size
+            else:
+                print("Wrong possible range")
+
+
+def matrix_based_on_user_input():
+    size = size_of_the_array()
+    return get_matrix_based_on_number_rows_and_columns(size, size)
+
+
+# Display
 def display_of_the_matrix(arr) -> None:
-    print("---------------------", end="")
+    for rows in arr:
+        print("-------", end="")
+
     for row in arr:
         print()
         print("| ", end="")
@@ -15,10 +40,22 @@ def display_of_the_matrix(arr) -> None:
 
 
 def display_of_the_board(arr) -> None:
-    print("---------------------", end="")
+    array_of_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+
+    array_size = len(arr)
+    for number in range(array_size):
+        print(f"   {number + 1}", end="")
+
+    print()
+    print("--", end="")
+    for rows in arr:
+        print("----", end="")
+
+    counter = 0
     for row in arr:
         print()
-        print("| ", end="")
+        print(f"{array_of_letters[counter]}| ", end="")
+        counter = counter + 1
         for cell in row:
             if cell == 0:
                 print(" ", end="")
@@ -28,7 +65,10 @@ def display_of_the_board(arr) -> None:
                 print("O", end="")
             print(" | ", end="")
     print()
-    print("---------------------")
+
+    print("--", end="")
+    for rows in arr:
+        print("----", end="")
 
 
 def next_turn() -> None:
@@ -36,9 +76,28 @@ def next_turn() -> None:
     first_players_turn = not first_players_turn
 
 
-def ask_user_to_input_a_column() -> int:
-    user_choice = int(input("Please select a column from 1-5: "))
-    return user_choice
+def ask_user_to_input_a_column(arr) -> int:
+    for attempt in range(10):
+        lenght_of_array = len(arr)
+        user_choice = input(
+            f"Please select a column from 1-{lenght_of_array}, press S to save the file, N to start new or E to end "
+            f"the game: ")
+        if user_choice == "S":
+            # seve the game
+            save_matrix_to_file_using_name()
+            return 0
+        if user_choice == "E":
+            # exit the game
+            return -1
+        if user_choice == "N":
+            # exit the game
+            return -2
+        elif user_choice in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']:
+            return int(user_choice)
+        else:
+            print("Your input is invalid")
+    print("Too mane wrong attempts")
+    exit()
 
 
 def convert_the_user_input_to_choice() -> int:
@@ -47,8 +106,6 @@ def convert_the_user_input_to_choice() -> int:
 
 def get_users_choice() -> int:
     return convert_the_user_input_to_choice()
-
-    # last_column
 
 
 def choice_out_of_bounds(arr, choice) -> bool:
@@ -157,6 +214,7 @@ def win_diagonally_left(arr, coordinates_of_mark) -> bool:
 
 
 def win_diagonally_right(arr, coordinates_of_mark) -> bool:
+    global scores_of_players
     r, c = get_marks_row(coordinates_of_mark), get_marks_column(coordinates_of_mark)
     try:
         if arr[r][c] == arr[r + 1][c + 1] and arr[r][c] == arr[r + 2][c + 2] and arr[r][c] == arr[r + 3][c + 3]:
@@ -186,9 +244,9 @@ def win_diagonally(arr, coordinates_of_mark) -> bool:
 
 
 def four_consecutive_marks(matrix, coordinates_of_mark) -> bool:
-    return win_horizontally(matrix, coordinates_of_mark) or win_vertically(matrix,
-                                                                           coordinates_of_mark) or win_diagonally(
-        matrix, coordinates_of_mark)
+    return win_horizontally(matrix, coordinates_of_mark) \
+           or win_vertically(matrix, coordinates_of_mark) \
+           or win_diagonally(matrix, coordinates_of_mark)
 
 
 def all_columns_are_taken(arr) -> bool:
@@ -230,6 +288,92 @@ def do_you_wanna_try_again():
         print("Your inout is invalid, please try again: ")
 
 
+def save_matrix(matrix, scores_arr, name) -> None:
+    import csv
+
+    with open(f'{name}.csv', 'w') as f:
+        write = csv.writer(f)
+        write.writerows(matrix)
+        write.writerow(scores_arr)
+
+    print(f"Successfully saved the metrix to the file {name}.csv")
+
+
+def load_matrix(name):
+    import csv
+    global matrix
+    global scores_of_players
+
+    column = 0
+    row = 0
+    try:
+        with open(f'{name}.csv', newline='') as f:
+            reader = csv.reader(f)
+            matrix_file = list(reader)
+        for row_list in matrix_file:
+            for cell in row_list:
+                matrix_file[row][column] = int(cell)
+                column += 1
+            column = 0
+            row += 1
+
+        scores_of_players = matrix_file.pop()
+        matrix = matrix_file
+        print(f"Successfully loaded the metrix from file {name}.csv: ")
+        display_of_the_board(matrix)
+    except FileNotFoundError:
+        print(f"File with the name {name}.csv was not found")
+
+
+def ask_user_file_name() -> str:
+    name_of_file = input("Please write the name of the file: ")
+    return name_of_file
+
+
+def load_matrix_from_file_using_name():
+    print("Loading the file.")
+    name = ask_user_file_name()
+    load_matrix(name)
+
+
+def save_matrix_to_file_using_name():
+    global matrix
+    global scores_of_players
+    print("Saving the file.")
+    name = ask_user_file_name()
+    save_matrix(matrix, scores_of_players, name)
+
+
+def scores(score_player_1, score_player_2):
+    return [score_player_1, score_player_2]
+
+
+def get_score_of_player_1(scores_arr):
+    return scores_arr[0]
+
+
+def get_score_of_player_2(scores_arr):
+    return scores_arr[1]
+
+
+def add_score_to_player(score_to_add, first_players_turn):
+    global scores_of_players
+    if first_players_turn:
+        scores_of_players[0] = scores_of_players[0] + score_to_add
+    else:
+        scores_of_players[1] = scores_of_players[1] + score_to_add
+
+
+def won_score(coordinates_of_the_mark) -> int:
+    global matrix
+    if win_diagonally(matrix, coordinates_of_the_mark):
+        return 1
+    elif win_vertically(matrix, coordinates_of_the_mark):
+        return 1
+    elif win_horizontally(matrix, coordinates_of_the_mark):
+        return 1
+
+
 def game_loop():
     global continue_playing
     while continue_playing:
@@ -246,16 +390,23 @@ def game_loop():
 
 if __name__ == '__main__':
     # imports
+    #
+    # # Declared variables
+    scores_of_players = scores(1, 2)
+    matrix = matrix_based_on_user_input()
+    # first_players_turn = True
+    # continue_playing = True
+    # try_again = True
+    #
+    # # Functions
+    #
+    # while try_again:
+    #     game_loop()
+    #
+    # ending_message()
 
-    # Declared variables
-    matrix = get_matrix_based_on_number_rows_and_columns()
-    first_players_turn = True
-    continue_playing = True
-    try_again = True
-
-    # Functions
-
-    while try_again:
-        game_loop()
-
-    ending_message()
+    #
+    # save_matrix_to_file_using_name()
+    load_matrix_from_file_using_name()
+    # print(ask_user_to_input_a_column(matrix))
+    # display_of_the_board(matrix)
