@@ -2,5 +2,5 @@
 
 ## Run instructions:
 
-    python main.py
+    python game.py
 
