@@ -10,11 +10,11 @@ if __name__ == '__main__':
     utilities.continue_playing = True
     utilities.try_again = True
 
-    # Initialization
+    # Arxh
     intialize_matrix()
 
-    # Main Game
+    # Kirio Paixnidi
     game_loop()
 
-    # End program
+    # Telos programmatos
     ending_message()
