@@ -1,5 +1,4 @@
 # imports
-import doctest
 
 # Global metavlhtes
 from typing import List, Tuple
@@ -86,7 +85,6 @@ def intialize_matrix() -> None:
 def matrix_based_on_user_input() -> List[List[int]]:
     """
     Επιστρέφει τον πίνακα βάσει του αριθμού που εισάγει ο χρήστης.
-    @rtype: List[List[int]]
     @return: List[List[int]]
 
     >>> matrix_based_on_user_input() #doctest: +SKIP
@@ -156,7 +154,7 @@ def display_of_the_board(arr) -> None:
 
 def next_turn() -> None:
     """
-    Αλλάζει τν σειρά των παίκτων.
+    Αλλάζει την σειρά των παίκτων.
 
     >>> next_turn()
     >>> print(first_players_turn)
@@ -242,9 +240,12 @@ def choice_out_of_bounds(arr, choice) -> bool:
 
 def get_users_choice(arr: List[List[int]]) -> int:
     """
-    Επιστρέφει
-    @param arr: list
-    @return:
+    Μετατρέπει την επιλογή στήλης του παίκτη.
+    Αφαιρεί μια μονάδα από τον αριθμό που έχει εισάγει ο χρήστης έτσι ώστε να αντιστοιχεί στην
+    πραγματική τοποθεσία πιονιού.
+
+    @param arr: List[List[int]]
+    @return: int
 
     >>> get_users_choice(matrix) #doctest: +SKIP
     - 1
@@ -837,8 +838,7 @@ def load_matrix(name):
 
 def ask_user_file_name() -> str:
     """
-
-    TODO: Finish the comments
+    Ζητάει από τον χρήστη να εισάγει το όομα αρχείου.
     @return: str
 
     >>> ask_user_file_name("toto.csv") #doctest: +SKIP
@@ -850,8 +850,7 @@ def ask_user_file_name() -> str:
 
 def load_matrix_from_file_using_name():
     """
-
-    TODO: Finish comments
+    Φόρτωση αρχείου.
 
     >>> load_matrix_from_file_using_name() #doctest: +SKIP
     - toto.csv
@@ -873,7 +872,7 @@ def load_matrix_from_file_using_name():
 
 def save_matrix_to_file_using_name():
     """
-
+    Αποθηκεύει το αρχείο.
     >>> save_matrix_to_file_using_name() #doctest: +SKIP
     - toto.csv
     Αποθήκευση αρχείου.
@@ -1003,5 +1002,5 @@ def game_loop() -> None:
 
     display_of_the_board(matrix)
 
-
-doctest.testmod()
+# afaireste ta sholia gia na treksei to paixnidi
+# doctest.testmod()
