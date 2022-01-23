@@ -11,7 +11,7 @@ if __name__ == '__main__':
     utilities.try_again = True
 
     # Initialization
-    intialze_matrix()
+    intialize_matrix()
 
     # Main Game
     game_loop()
