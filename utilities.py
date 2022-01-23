@@ -36,8 +36,9 @@ def size_of_the_array() -> int:
     Εάν ο χρήστης δεν εισάγει αριθμό, ο προκαθορισμένος αριθμός στηλών είναι 5.
     @return: int
 
-    TODO: Write a scenario
     >>> size_of_the_array() #doctest: +SKIP
+    - 5
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
 
     """
     while True:
@@ -56,9 +57,17 @@ def intialize_matrix() -> None:
     """
     Εμφανίζει τον πίνακα ανάλογα με την επιλογή του παίκτη.
 
-    TODO: Write a scenario
     >>> intialize_matrix() #doctest: +SKIP
-
+    - n
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Player 1 score is: 0, player 2 score is: 0. It's Player 1 turn.
     """
     global matrix
     global scores_of_players
@@ -78,10 +87,11 @@ def matrix_based_on_user_input() -> List[List[int]]:
     """
     Επιστρέφει τον πίνακα βάσει του αριθμού που εισάγει ο χρήστης.
     @rtype: List[List[int]]
-    @return: list
+    @return: List[List[int]]
 
-    TODO: make a scenario
     >>> matrix_based_on_user_input() #doctest: +SKIP
+    - 5
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
     """
     size = size_of_the_array()
     return get_matrix_based_on_number_rows_and_columns(size, size)
@@ -165,8 +175,9 @@ def ask_user_to_input_a_column(arr) -> int:
     @param arr: list
     @return: int
 
-    TODO: Give a scenario
     >>> ask_user_to_input_a_column(matrix) #doctest: +SKIP
+    - 1
+    1
 
     """
     while True:
@@ -174,7 +185,7 @@ def ask_user_to_input_a_column(arr) -> int:
         length_of_array = len(arr)
         user_choice = input(
             f"Παρακαλώ επιλέξτε στήλη από 1-{length_of_array}, πατήστε S για να αποθηκεύσετε το αρχείο, N για να αρχίσετε νέο παιχνίδι, L για "
-            f" φορτώση παιχνίδιου ή E για να τερματίσετε το παιχνίδι: ")
+            f" φόρτωση παιχνίδιου ή E για να τερματίσετε το παιχνίδι: ")
         if user_choice in ["S", "s", "Σ", "σ"]:
             # apothikevsi paixnidiou
             save_matrix_to_file_using_name()
@@ -196,16 +207,17 @@ def ask_user_to_input_a_column(arr) -> int:
             print(f"Δοκιμάστε ξανά.")
 
 
-def convert_the_user_input_to_choice(arr) -> int:
+def convert_the_user_input_to_choice(arr: List[List[int]]) -> int:
     """
     Μετατρέπει την επιλογή στήλης του παίκτη.
     Αφαιρεί μια μονάδα από τον αριθμό που έχει εισάγει ο χρήστης έτσι ώστε να αντιστοιχεί στην
     πραγματική τοποθεσία πιονιού.
-    @param arr: list
+    @param arr: List[List[int]]
     @return: int
 
-    TODO: make a scenario
     >>> convert_the_user_input_to_choice(matrix) #doctest: +SKIP
+    - 5
+    4
 
     """
     return ask_user_to_input_a_column(arr) - 1
@@ -228,17 +240,18 @@ def choice_out_of_bounds(arr, choice) -> bool:
         return False
 
 
-def get_users_choice(arr) -> int:
+def get_users_choice(arr: List[List[int]]) -> int:
     """
     Επιστρέφει
     @param arr: list
     @return:
 
-    TODO: make a scenario
     >>> get_users_choice(matrix) #doctest: +SKIP
+    - 1
+    0
 
     """
-    return convert_the_user_input_to_choice(arr=arr)
+    return convert_the_user_input_to_choice(arr)
 
 
 # Orismos tou pioniou
@@ -470,12 +483,12 @@ def show_score():
     Δείχνει την βαθμολογία του κάθε παίκτη.
 
     >>> show_score()
-    Player 1 score is: 3, player 2 score is: 2. It's Player 2 turn.
+    Βαθμολογία του παίκτη 1: 3, Βαθμολογία του παίκτη 2: 2. Είναι η σειρά του παίκτη 2.
     """
     global scores_of_players
     global first_players_turn
     print(
-        f"Βαθμολογία του παίκτη 1: {scores_of_players[0]}, Βαθμολογία του παίκτη 2: {scores_of_players[1]}. Είναι η σειρά του παίκτη {players_turn_to_number(first_players_turn)} .")
+        f"Βαθμολογία του παίκτη 1: {scores_of_players[0]}, Βαθμολογία του παίκτη 2: {scores_of_players[1]}. Είναι η σειρά του παίκτη {players_turn_to_number(first_players_turn)}.")
 
 
 # def won_spot()
@@ -669,8 +682,8 @@ def winning_message(score_of_players) -> None:
     @param score_of_players: int
 
     >>> winning_message(scores_of_players)
-    Player number 1 won!
-    It's a tie!
+    Ο παίκτης 1 είναι νικητής!
+    Ισοπαλία!
     """
     if get_score_of_player_1(score_of_players) > get_score_of_player_2(score_of_players):
         print("Ο παίκτης 1 είναι νικητής!")
@@ -685,7 +698,7 @@ def ending_message():
     Εμφανίζει μήνυμα με την ανακοίνωση του τέλους του προγράμματος.
 
     >>> ending_message()
-    end of program
+    τέλος προγράμματος
     """
     print("τέλος προγράμματος")
 
@@ -726,9 +739,9 @@ def save_matrix(arr, scores_arr, name, first_players_turn: bool) -> None:
     @param first_players_turn: bool
 
     >>> save_matrix(matrix, scores_of_players, "toto.csv", first_players_turn=first_players_turn)
-    Successfully saved the metrix to the file toto.csv.csv
+    Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο toto.csv
     >>> save_matrix(matrix, scores_of_players, "", first_players_turn=first_players_turn)
-    No name given
+    δεν δόθηκε όνομα
     """
     import csv
 
@@ -741,7 +754,7 @@ def save_matrix(arr, scores_arr, name, first_players_turn: bool) -> None:
 
         print(f"Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο {name}")
     else:
-        print("No name given")
+        print("δεν δόθηκε όνομα")
 
 
 def players_turn_to_number(first_players_turn: bool):
@@ -749,6 +762,11 @@ def players_turn_to_number(first_players_turn: bool):
     Μετατρέπει την σειρά του παίκτη σε αριθμό.
     @param first_players_turn: bool
     @return: int
+
+    >>> players_turn_to_number(True)
+    1
+    >>> players_turn_to_number(False)
+    2
     """
     if first_players_turn:
         return 1
@@ -761,6 +779,11 @@ def players_turn_to_bool(first_players_turn: int):
     Μετατρέπει την σειρά του παίκτη σε 'bool' .
     @param first_players_turn: int
     @return: bool
+
+    >>> players_turn_to_bool(1)
+    True
+    >>> players_turn_to_bool(2)
+    False
     """
     if first_players_turn == 1:
         return True
@@ -773,6 +796,17 @@ def load_matrix(name):
     Φορτώνει το αρχείο με το παιχνίδι
     @param name: str
 
+    >>> load_matrix("toto.csv") #doctest: +SKIP
+    Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείοtoto.csv:
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Βαθμολογία του παίκτη 1: 3, Βαθμολογία του παίκτη 2: 2. Είναι η σειρά του παίκτη 1.
     """
     import csv
     global matrix
@@ -795,16 +829,20 @@ def load_matrix(name):
         first_players_turn = players_turn_to_bool(matrix_file.pop()[0])
         scores_of_players = matrix_file.pop()
         matrix = matrix_file
-        print(f"Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείο{name}.csv: ")
+        print(f"Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείο {name}: ")
         display_of_the_board(matrix)
     except FileNotFoundError:
-        print(f"Το αρχείο με το όνομα {name}.csv δεν υπάρχει")
+        print(f"Το αρχείο με το όνομα {name} δεν υπάρχει")
 
 
 def ask_user_file_name() -> str:
     """
 
+    TODO: Finish the comments
     @return: str
+
+    >>> ask_user_file_name("toto.csv") #doctest: +SKIP
+    toto.csv
     """
     name_of_file = input("Παρακαλώ, εισάγετε το όνομα του αρχείου: ")
     return name_of_file
@@ -813,6 +851,20 @@ def ask_user_file_name() -> str:
 def load_matrix_from_file_using_name():
     """
 
+    TODO: Finish comments
+
+    >>> load_matrix_from_file_using_name() #doctest: +SKIP
+    - toto.csv
+    Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείοtoto.csv:
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Βαθμολογία του παίκτη 1: 3, Βαθμολογία του παίκτη 2: 2. Είναι η σειρά του παίκτη 1.
     """
     print("Φόρτωση αρχείου..")
     name = ask_user_file_name()
@@ -822,6 +874,10 @@ def load_matrix_from_file_using_name():
 def save_matrix_to_file_using_name():
     """
 
+    >>> save_matrix_to_file_using_name() #doctest: +SKIP
+    - toto.csv
+    Αποθήκευση αρχείου.
+    Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο toto.csv
     """
     global matrix
     global scores_of_players
@@ -831,50 +887,71 @@ def save_matrix_to_file_using_name():
     save_matrix(matrix, scores_of_players, name, first_players_turn)
 
 
-def scores(score_player_1, score_player_2) -> list:
+def scores(score_player_1: int = 0, score_player_2: int = 0) -> List[int]:
     """
     Επιστρέφει λίστα με βαθμολογίες των παίκτων
-    @param score_player_1:int
+    @param score_player_1: int
     @param score_player_2: int
-    @return: list
+    @return: List[int]
 
+    >>> scores(0, 1)
+    [0, 1]
+    >>> scores(0, 0)
+    [0, 0]
+    >>> scores(1, 0)
+    [1, 0]
     """
     return [score_player_1, score_player_2]
 
 
-def get_score_of_player_1(scores_arr):
+def get_score_of_player_1(scores_arr: List[int]) -> int:
     """
     Επιστρέφει την πρώτη θέση της λίστας, δηλαδή την βαθμολογία του παίκτη 1.
-    @param scores_arr:
-    @return:
+    @param scores_arr: List[int]
+    @return: int
 
+    >>> get_score_of_player_1(scores(1, 1))
+    1
+    >>> get_score_of_player_1(scores(0, 1))
+    0
+    >>> get_score_of_player_1(scores())
+    0
     """
     return scores_arr[0]
 
 
-def get_score_of_player_2(scores_arr):
+def get_score_of_player_2(scores_arr: List[int]) -> int:
     """
     Επιστρέφει την δεύτερη θέση της λίστας, δηλαδή την βαθμολογία του παίκτη 2.
-    @param scores_arr:
-    @return:
+    @param scores_arr: List[int]
+    @return: int
 
+    >>> get_score_of_player_2(scores(1, 1))
+    1
+    >>> get_score_of_player_2(scores(0, 1))
+    1
+    >>> get_score_of_player_2(scores())
+    0
     """
     return scores_arr[1]
 
 
-def end_the_program():
+def end_the_program() -> None:
     """
     Εμφανίζει μήνυμα για τερματισμό προγράμματος.
 
+    >>> end_the_program() #doctest: +SKIP
+    Τερματισμός προγράμματος...
     """
     print("Τερματισμός προγράμματος...")
     exit()
 
 
-def game_loop():
+def game_loop() -> None:
     """
     Υποστηρίζει την διεξαγωγή πολλαπλών γύρων του παιχνιδιού.
 
+    >>> game_loop() #doctest: +SKIP
     """
     global continue_playing
     while continue_playing:
