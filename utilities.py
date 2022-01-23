@@ -1,11 +1,14 @@
+# imports
+import doctest
+
 # Global metavlhtes
 from typing import List, Tuple
 
 first_players_turn: bool = True
 continue_playing: bool = True
 try_again: bool = True
-matrix: List[List[int]] = []
-scores_of_players: List[int] = []
+matrix: List[List[int]] = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+scores_of_players: List[int] = [0, 0]
 
 
 # Synarthseis
@@ -17,6 +20,12 @@ def get_matrix_based_on_number_rows_and_columns(columns: int = 5, rows: int = 5)
     @param rows: int
     @return: List[List[int]]
 
+    >>> get_matrix_based_on_number_rows_and_columns()
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+    >>> get_matrix_based_on_number_rows_and_columns(6, 6)
+    [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
+
+
     """
     return [[0 for x in range(columns)] for y in range(rows)]
 
@@ -26,6 +35,10 @@ def size_of_the_array() -> int:
     Επιστρέφει τον αριθμό στηλών που επιθυμεί ο χρήστης να υπάρχουν στον πίνακα του.
     Εάν ο χρήστης δεν εισάγει αριθμό, ο προκαθορισμένος αριθμός στηλών είναι 5.
     @return: int
+
+    >>> size_of_the_array() #doctest: +SKIP
+    - 5
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
 
     """
     while True:
@@ -44,6 +57,17 @@ def intialize_matrix() -> None:
     """
     Εμφανίζει τον πίνακα ανάλογα με την επιλογή του παίκτη.
 
+    >>> intialize_matrix() #doctest: +SKIP
+    - n
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Player 1 score is: 0, player 2 score is: 0. It's Player 1 turn.
     """
     global matrix
     global scores_of_players
@@ -63,7 +87,11 @@ def matrix_based_on_user_input() -> List[List[int]]:
     """
     Επιστρέφει τον πίνακα βάσει του αριθμού που εισάγει ο χρήστης.
     @rtype: List[List[int]]
-    @return: list
+    @return: List[List[int]]
+
+    >>> matrix_based_on_user_input() #doctest: +SKIP
+    - 5
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
     """
     size = size_of_the_array()
     return get_matrix_based_on_number_rows_and_columns(size, size)
@@ -73,7 +101,19 @@ def matrix_based_on_user_input() -> List[List[int]]:
 def display_of_the_board(arr) -> None:
     """
     Απεικόνιση του πίνακα με αριθμημένες στήλες και γραμμές.
-    @param arr: list
+    @param arr: List[List[int]]
+
+    >>> matrix = get_matrix_based_on_number_rows_and_columns()
+    >>> display_of_the_board(matrix) #doctest: +SKIP
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Player 1 score is: 0, player 2 score is: 0. It's Player 1 turn.
     """
     array_of_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
 
@@ -118,6 +158,9 @@ def next_turn() -> None:
     """
     Αλλάζει τν σειρά των παίκτων.
 
+    >>> next_turn()
+    >>> print(first_players_turn)
+    True
     """
     global first_players_turn
     first_players_turn = not first_players_turn
@@ -132,13 +175,17 @@ def ask_user_to_input_a_column(arr) -> int:
     @param arr: list
     @return: int
 
+    >>> ask_user_to_input_a_column(matrix) #doctest: +SKIP
+    - 1
+    1
+
     """
     while True:
         display_of_the_board(arr)
         length_of_array = len(arr)
         user_choice = input(
             f"Παρακαλώ επιλέξτε στήλη από 1-{length_of_array}, πατήστε S για να αποθηκεύσετε το αρχείο, N για να αρχίσετε νέο παιχνίδι, L για "
-            f" φορτώση παιχνίδιου ή E για να τερματίσετε το παιχνίδι: ")
+            f" φόρτωση παιχνίδιου ή E για να τερματίσετε το παιχνίδι: ")
         if user_choice in ["S", "s", "Σ", "σ"]:
             # apothikevsi paixnidiou
             save_matrix_to_file_using_name()
@@ -160,13 +207,17 @@ def ask_user_to_input_a_column(arr) -> int:
             print(f"Δοκιμάστε ξανά.")
 
 
-def convert_the_user_input_to_choice(arr) -> int:
+def convert_the_user_input_to_choice(arr: List[List[int]]) -> int:
     """
     Μετατρέπει την επιλογή στήλης του παίκτη.
     Αφαιρεί μια μονάδα από τον αριθμό που έχει εισάγει ο χρήστης έτσι ώστε να αντιστοιχεί στην
     πραγματική τοποθεσία πιονιού.
-    @param arr: list
+    @param arr: List[List[int]]
     @return: int
+
+    >>> convert_the_user_input_to_choice(matrix) #doctest: +SKIP
+    - 5
+    4
 
     """
     return ask_user_to_input_a_column(arr) - 1
@@ -179,6 +230,9 @@ def choice_out_of_bounds(arr, choice) -> bool:
     @param choice: int
     @return: bool
 
+    >>> choice_out_of_bounds(matrix, 0)
+    False
+
     """
     if arr[0][choice] != 0:
         return True
@@ -186,14 +240,18 @@ def choice_out_of_bounds(arr, choice) -> bool:
         return False
 
 
-def get_users_choice(arr) -> int:
+def get_users_choice(arr: List[List[int]]) -> int:
     """
     Επιστρέφει
     @param arr: list
     @return:
 
+    >>> get_users_choice(matrix) #doctest: +SKIP
+    - 1
+    0
+
     """
-    return convert_the_user_input_to_choice(arr=arr)
+    return convert_the_user_input_to_choice(arr)
 
 
 # Orismos tou pioniou
@@ -203,6 +261,9 @@ def mark(row, column) -> List[int]:
     @param row: int
     @param column: int
     @return: List[int]
+
+    >>> mark( 0, 0)
+    [0, 0]
 
     """
     return [row, column]
@@ -214,6 +275,8 @@ def get_marks_column(mk) -> int:
     @param mk: list
     @return: int
 
+    >>> get_marks_column(mark( 0, 0))
+    0
     """
     return mk[1]
 
@@ -224,17 +287,23 @@ def get_marks_row(mk) -> int:
     @param mk: list
     @return: int
 
+    >>> get_marks_row(mark( 0, 0))
+    0
+
     """
     return mk[0]
 
 
-def get_the_players_mark(arr, column) -> List[int]:
+def get_the_players_mark(arr: List[List[int]], column: int) -> List[int]:
     """
     Ελέγχει τη διαθεσιμότητα θέσεων στην στήλη που επέλεξε ο χρήστης.
     Επιστρέφει τις συντεταγμένες της πρώτης διαθέσιμης θέσης.
-    @param arr: array
+    @param arr: List[List[int]]
     @param column: int
     @return: List[int]
+
+    >>> get_the_players_mark([[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], 0)
+    [4, 0]
 
     """
     number_of_rows = len(arr)
@@ -249,6 +318,8 @@ def set_the_players_mark(coordinates_of_mark: List[int]) -> None:
     Εισάγει τον αριθμό 1 ή 2 ανάλογα με την σειρά του παίκτη στην διαθέσιμη θέση.
     Χρησιμοποιεί την 'global matrix' και την global 'first_players_turn'.
     @param coordinates_of_mark: List[int]
+
+    >>> set_the_players_mark(mark(0, 0))
 
     """
     global matrix
@@ -267,6 +338,9 @@ def win_array(players_number: int = -1, coordinates: object = None) -> list:
     @param coordinates: None
     @return: list
 
+    >>> win_array()
+    [-1, []]
+
     """
     if coordinates is None:
         coordinates = []
@@ -278,6 +352,9 @@ def get_win_array_player(win_arr: list) -> bool:
     Επιστρέφει την πρώτη θέση της λίστας, δηλαδή τον αριθμό του παίκτη.
     @param win_arr: list
     @return: bool
+
+    >>> get_win_array_player(win_array())
+    -1
     """
     return win_arr[0]
 
@@ -287,13 +364,16 @@ def get_win_array_coordinates(win_arr: list) -> list:
     Επιστρέφει την δεύτερη θέση της λίστας, δηλαδή τις συντεταγμένες του παίκτη.
     @param win_arr: list
     @return: list
+
+    >>> get_win_array_coordinates(win_array())
+    []
     """
     return win_arr[1]
 
 
 # def of win coord
 
-def winning_coordinates(row: int, column: int) -> List[int]:
+def winning_coordinates(row: int = 0, column: int = 0) -> List[int]:
     """
     Επιστρέφει την λίστα με τις συντεταγμένες του πιονιού.
     @param row: int
@@ -304,12 +384,14 @@ def winning_coordinates(row: int, column: int) -> List[int]:
     return [row, column]
 
 
-def get_winning_coordinates_row(arr) -> int:
+def get_winning_coordinates_row(arr: list) -> int:
     """
     Επιστρέφει την πρώτη θέση της λίστας με τις συντεταγμένες του πιονιού, δηλαδή την αντίστοιχη γραμμή.
     @param arr: list
     @return: int
 
+    >>> get_winning_coordinates_row(winning_coordinates())
+    0
     """
     return arr[0]
 
@@ -320,6 +402,8 @@ def get_winning_coordinates_column(arr) -> int:
     @param arr: list
     @return: int
 
+    >>> get_winning_coordinates_column(winning_coordinates())
+    0
     """
     return arr[1]
 
@@ -331,6 +415,9 @@ def win_horizontally() -> Tuple[bool, list]:
     Επιστρέφει την λίστα με την πρώτη θέση να είναι ο αριθμός του παίκτη.
     Η δεύτερη θέση αντιστοιχεί όλες τις συντεταγμένες των πιονιών του παίκτη που κέρδισε οριζόντια.
     @return: Tuple[bool, list]
+
+    >>> win_horizontally()
+    (False, [-1, []])
 
     """
     global matrix
@@ -358,6 +445,16 @@ def add_score_to_player(score_to_add, which_player):
     Προσθέτει την βαθμολογία στον παίκτη.
     @param score_to_add: List[int]
     @param which_player: int
+
+    >>> add_score_to_player(1, 1)
+    >>> print(scores_of_players)
+    [1, 0]
+    >>> add_score_to_player(2, 1)
+    >>> print(scores_of_players)
+    [3, 0]
+    >>> add_score_to_player(1, 2)
+    >>> print(scores_of_players)
+    [3, 1]
     """
     global scores_of_players
     if which_player == 1:
@@ -366,14 +463,18 @@ def add_score_to_player(score_to_add, which_player):
         scores_of_players[1] = scores_of_players[1] + score_to_add
 
 
-def increase_score(win_array):
+def increase_score(win_arr: list):
     """
     Προσθέτει την βαθμολογία στον παίκτη που κέρδισε.
-    @param win_array:
+    @param win_arr: list
+
+    >>> increase_score(win_array(2))
+    >>> print(scores_of_players)
+    [3, 2]
     """
     global scores_of_players
-    if win_array:
-        players_number = get_win_array_player(win_array)
+    if win_arr:
+        players_number = get_win_array_player(win_arr)
         add_score_to_player(1, players_number)
 
 
@@ -381,27 +482,32 @@ def show_score():
     """
     Δείχνει την βαθμολογία του κάθε παίκτη.
 
+    >>> show_score()
+    Βαθμολογία του παίκτη 1: 3, Βαθμολογία του παίκτη 2: 2. Είναι η σειρά του παίκτη 2.
     """
     global scores_of_players
     global first_players_turn
     print(
-        f"Βαθμολογία του παίκτη 1: {scores_of_players[0]}, Βαθμολογία του παίκτη 2: {scores_of_players[1]}. Είναι η σειρά του παίκτη {players_turn_to_number(first_players_turn)} .")
+        f"Βαθμολογία του παίκτη 1: {scores_of_players[0]}, Βαθμολογία του παίκτη 2: {scores_of_players[1]}. Είναι η σειρά του παίκτη {players_turn_to_number(first_players_turn)}.")
 
 
 # def won_spot()
 
-def replace_by_winning_spot(win_array: List) -> None:
+def replace_by_winning_spot(win_arr: list) -> None:
     """
     Αντικαθιστά τους αριθμούς 1,2 των πιονιών στον πίνακα με 3,4 αντίστοιχα, εφόσον ο παίκτης έχει
     συμπληρώσει 4 συνεχόμενα πιόνια.
-    @param win_array: list
+    @param win_arr: list
 
+    >>> replace_by_winning_spot(win_array())
+    >>> print(matrix)
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
     """
     global matrix
-    if win_array:
-        coordinates = get_win_array_coordinates(win_array)
+    if win_arr:
+        coordinates = get_win_array_coordinates(win_arr)
         for coordinate in coordinates:
-            if get_win_array_player(win_array) == 1:
+            if get_win_array_player(win_arr) == 1:
                 matrix[get_winning_coordinates_row(coordinate)][
                     get_winning_coordinates_column(coordinate)] = 3
             else:
@@ -409,11 +515,16 @@ def replace_by_winning_spot(win_array: List) -> None:
                     get_winning_coordinates_column(coordinate)] = 4
 
 
-def make_column_fall(row, column):
+def make_column_fall(row: int = 0, column: int = 0) -> None:
     """
     Αντικαθιστά το πιόνια του νικητή με αυτά που βρίσκονται από πάνω.
     @param row: int
     @param column: int
+
+    >>> make_column_fall(3,0)
+    >>> print(matrix)
+    [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+
     """
     global matrix
     if matrix[row][column] == 3 or matrix[row][column] == 4:
@@ -443,6 +554,9 @@ def win_vertically() -> Tuple[bool, list]:
     """
     Ελέγχει εάν ο παίκτης έχει συμπληρώσει τουλάχιστον 4 πιόνια κάθετα.
     @return: Tuple[bool, list]
+
+    >>> win_vertically()
+    (False, [-1, []])
     """
     global matrix
     global first_players_turn
@@ -470,6 +584,8 @@ def win_diagonally_left() -> Tuple[bool, list]:
     Ελέγχει εάν ο παίκτης έχει συμπληρώσει τουλάχιστον 4 πιόνια διαγώνια από την αριστερή κατεύθυνση.
     @return: Tuple[bool, list]
 
+    >>> win_diagonally_left()
+    (False, [-1, []])
     """
     global matrix
     global first_players_turn
@@ -498,6 +614,8 @@ def win_diagonally_right() -> Tuple[bool, list]:
     Ελέγχει εάν ο παίκτης έχει συμπληρώσει τουλάχιστον 4 πιόνια διαγώνια από την δεξιά κατεύθυνση.
     @return: Tuple[bool, list]
 
+    >>> win_diagonally_right()
+    (False, [-1, []])
     """
     global matrix
     global first_players_turn
@@ -520,11 +638,16 @@ def win_diagonally_right() -> Tuple[bool, list]:
 
 
 # Synthikes gia termatismo paixnidiou
-def all_columns_are_taken(arr) -> bool:
+def all_columns_are_taken(arr: List[List[int]]) -> bool:
     """
     Ελέγχει εάν δεν υπάρχουν διαθέσιμες θέσεις στον πίνακα.
-    @param arr: list
+    @param arr: List[List[int]]
     @return: bool
+
+    >>> all_columns_are_taken([[1,1], [1,1]])
+    True
+    >>> all_columns_are_taken([[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]])
+    False
     """
     for row in arr:
         for cell in row:
@@ -533,12 +656,19 @@ def all_columns_are_taken(arr) -> bool:
     return True
 
 
-def conditions_to_stop(arr) -> bool:
+def conditions_to_stop(arr: List[List[int]]) -> bool:
     """
     Επιστρέφει 'True' εαν η ο πίνακας δεν έχει διαθέσιμες θέσεις.
 
-    @param arr: list
+    @param arr: List[List[int]]
     @return: bool
+
+    >>> conditions_to_stop([[1,1], [1,1]])
+    True
+    >>> conditions_to_stop([[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]])
+    False
+    >>> conditions_to_stop([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]])
+    True
     """
     return all_columns_are_taken(arr)
 
@@ -550,6 +680,10 @@ def winning_message(score_of_players) -> None:
     """
     Εμφανίζει μήνυμα με την ανακοίνωση του νικητή.
     @param score_of_players: int
+
+    >>> winning_message(scores_of_players)
+    Ο παίκτης 1 είναι νικητής!
+    Ισοπαλία!
     """
     if get_score_of_player_1(score_of_players) > get_score_of_player_2(score_of_players):
         print("Ο παίκτης 1 είναι νικητής!")
@@ -563,6 +697,8 @@ def ending_message():
     """
     Εμφανίζει μήνυμα με την ανακοίνωση του τέλους του προγράμματος.
 
+    >>> ending_message()
+    τέλος προγράμματος
     """
     print("τέλος προγράμματος")
 
@@ -571,6 +707,9 @@ def do_you_wanna_try_again():
     """
     Εμφανίζει μήνυμα και ελέγχει εάν ο παίκτης επιθυμεί να συνεχίσει το παιχνίδι.
 
+
+
+    >>> do_you_wanna_try_again() #doctest: +SKIP
 
     """
     global matrix
@@ -598,16 +737,24 @@ def save_matrix(arr, scores_arr, name, first_players_turn: bool) -> None:
     @param scores_arr: list
     @param name: str
     @param first_players_turn: bool
+
+    >>> save_matrix(matrix, scores_of_players, "toto.csv", first_players_turn=first_players_turn)
+    Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο toto.csv
+    >>> save_matrix(matrix, scores_of_players, "", first_players_turn=first_players_turn)
+    δεν δόθηκε όνομα
     """
     import csv
 
-    with open(f'{name}', 'w') as f:
-        write = csv.writer(f)
-        write.writerows(arr)
-        write.writerow(scores_arr)
-        write.writerow([players_turn_to_number(first_players_turn)])
+    if name:
+        with open(f'{name}', 'w') as f:
+            write = csv.writer(f)
+            write.writerows(arr)
+            write.writerow(scores_arr)
+            write.writerow([players_turn_to_number(first_players_turn)])
 
-    print(f"Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο {name}.csv")
+        print(f"Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο {name}")
+    else:
+        print("δεν δόθηκε όνομα")
 
 
 def players_turn_to_number(first_players_turn: bool):
@@ -615,6 +762,11 @@ def players_turn_to_number(first_players_turn: bool):
     Μετατρέπει την σειρά του παίκτη σε αριθμό.
     @param first_players_turn: bool
     @return: int
+
+    >>> players_turn_to_number(True)
+    1
+    >>> players_turn_to_number(False)
+    2
     """
     if first_players_turn:
         return 1
@@ -627,6 +779,11 @@ def players_turn_to_bool(first_players_turn: int):
     Μετατρέπει την σειρά του παίκτη σε 'bool' .
     @param first_players_turn: int
     @return: bool
+
+    >>> players_turn_to_bool(1)
+    True
+    >>> players_turn_to_bool(2)
+    False
     """
     if first_players_turn == 1:
         return True
@@ -639,6 +796,17 @@ def load_matrix(name):
     Φορτώνει το αρχείο με το παιχνίδι
     @param name: str
 
+    >>> load_matrix("toto.csv") #doctest: +SKIP
+    Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείοtoto.csv:
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Βαθμολογία του παίκτη 1: 3, Βαθμολογία του παίκτη 2: 2. Είναι η σειρά του παίκτη 1.
     """
     import csv
     global matrix
@@ -661,16 +829,20 @@ def load_matrix(name):
         first_players_turn = players_turn_to_bool(matrix_file.pop()[0])
         scores_of_players = matrix_file.pop()
         matrix = matrix_file
-        print(f"Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείο{name}.csv: ")
+        print(f"Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείο {name}: ")
         display_of_the_board(matrix)
     except FileNotFoundError:
-        print(f"Το αρχείο με το όνομα {name}.csv δεν υπάρχει")
+        print(f"Το αρχείο με το όνομα {name} δεν υπάρχει")
 
 
 def ask_user_file_name() -> str:
     """
 
+    TODO: Finish the comments
     @return: str
+
+    >>> ask_user_file_name("toto.csv") #doctest: +SKIP
+    toto.csv
     """
     name_of_file = input("Παρακαλώ, εισάγετε το όνομα του αρχείου: ")
     return name_of_file
@@ -679,6 +851,20 @@ def ask_user_file_name() -> str:
 def load_matrix_from_file_using_name():
     """
 
+    TODO: Finish comments
+
+    >>> load_matrix_from_file_using_name() #doctest: +SKIP
+    - toto.csv
+    Η φόρτωση του παιχνιδιού έγινε με επιτυχία από το αρχείοtoto.csv:
+       1   2   3   4   5
+    ----------------------
+    A|   |   |   |   |   |
+    B|   |   |   |   |   |
+    C|   |   |   |   |   |
+    D|   |   |   |   |   |
+    E|   |   |   |   |   |
+    ----------------------
+    Βαθμολογία του παίκτη 1: 3, Βαθμολογία του παίκτη 2: 2. Είναι η σειρά του παίκτη 1.
     """
     print("Φόρτωση αρχείου..")
     name = ask_user_file_name()
@@ -688,6 +874,10 @@ def load_matrix_from_file_using_name():
 def save_matrix_to_file_using_name():
     """
 
+    >>> save_matrix_to_file_using_name() #doctest: +SKIP
+    - toto.csv
+    Αποθήκευση αρχείου.
+    Το παιχνίδι αποθηκεύτηκε με επιτυχία στο αρχείο toto.csv
     """
     global matrix
     global scores_of_players
@@ -697,50 +887,71 @@ def save_matrix_to_file_using_name():
     save_matrix(matrix, scores_of_players, name, first_players_turn)
 
 
-def scores(score_player_1, score_player_2) -> list:
+def scores(score_player_1: int = 0, score_player_2: int = 0) -> List[int]:
     """
     Επιστρέφει λίστα με βαθμολογίες των παίκτων
-    @param score_player_1:int
+    @param score_player_1: int
     @param score_player_2: int
-    @return: list
+    @return: List[int]
 
+    >>> scores(0, 1)
+    [0, 1]
+    >>> scores(0, 0)
+    [0, 0]
+    >>> scores(1, 0)
+    [1, 0]
     """
     return [score_player_1, score_player_2]
 
 
-def get_score_of_player_1(scores_arr):
+def get_score_of_player_1(scores_arr: List[int]) -> int:
     """
     Επιστρέφει την πρώτη θέση της λίστας, δηλαδή την βαθμολογία του παίκτη 1.
-    @param scores_arr:
-    @return:
+    @param scores_arr: List[int]
+    @return: int
 
+    >>> get_score_of_player_1(scores(1, 1))
+    1
+    >>> get_score_of_player_1(scores(0, 1))
+    0
+    >>> get_score_of_player_1(scores())
+    0
     """
     return scores_arr[0]
 
 
-def get_score_of_player_2(scores_arr):
+def get_score_of_player_2(scores_arr: List[int]) -> int:
     """
     Επιστρέφει την δεύτερη θέση της λίστας, δηλαδή την βαθμολογία του παίκτη 2.
-    @param scores_arr:
-    @return:
+    @param scores_arr: List[int]
+    @return: int
 
+    >>> get_score_of_player_2(scores(1, 1))
+    1
+    >>> get_score_of_player_2(scores(0, 1))
+    1
+    >>> get_score_of_player_2(scores())
+    0
     """
     return scores_arr[1]
 
 
-def end_the_program():
+def end_the_program() -> None:
     """
     Εμφανίζει μήνυμα για τερματισμό προγράμματος.
 
+    >>> end_the_program() #doctest: +SKIP
+    Τερματισμός προγράμματος...
     """
     print("Τερματισμός προγράμματος...")
     exit()
 
 
-def game_loop():
+def game_loop() -> None:
     """
     Υποστηρίζει την διεξαγωγή πολλαπλών γύρων του παιχνιδιού.
 
+    >>> game_loop() #doctest: +SKIP
     """
     global continue_playing
     while continue_playing:
@@ -791,3 +1002,6 @@ def game_loop():
         next_turn()
 
     display_of_the_board(matrix)
+
+
+doctest.testmod()
